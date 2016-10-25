@@ -1,6 +1,6 @@
 ; Firm Ware Julian Santos for GY-521 Module
            INCLUDE 'MC9S08JM16.inc'
-           
+         
 LED EQU 2   
 SDA EQU 1
 SCL EQU 0        
@@ -38,6 +38,10 @@ var_x_accel:  DS.B 2
 ascci_accel   DS.B 5
 repeticiones DS.B 1
 flags DS.B 1
+segundos DS.B 1
+minutos DS.B 1
+horas DS.B 1
+dias DS.B 1
 
            ORG    0C000H
             
@@ -51,8 +55,24 @@ mainLoop:
 				JSR initial_config ; Subroutine for initial configuration of parallel input ports
 				JSR initial_states ; Subroutine for set initial states
 				JSR init_LCD
+				
+				LDA #cmd_line1 ; Line 1 
+				ADD #3
+				JSR send_command
+				
 				LDHX #initial_message 
 				JSR write_message ; Display the initial message
+				
+				LDA #cmd_line3 ; Line 3 
+				ADD #3
+				JSR send_command
+				
+				LDHX #alarm
+				JSR write_message ; Display the initial message
+				
+				JSR init_RTC
+				CLI ; enabling interrupts
+				JMP *
 				
 lectura:     	JSR init_I2C ; Subroutine for initilaze I2C module 
         		JSR read_acel_x  
@@ -82,10 +102,18 @@ initial_states:
 				STA ascci_accel+1
 				STA ascci_accel+0
 				STA flags
+				STA segundos
+				STA minutos
+				STA horas 
+				STA dias
 				LDA #30D
 				STA repeticiones
 				RTS
-				
+;**********************************************************Init RTC
+init_RTC:
+				MOV #0H,RTCMOD
+				MOV #1FH,RTCSC
+				RTS				
 ;**********************************************************Subroutine for initialize LCD	
 init_I2C:
 			  MOV #014H,IICF  ; setting the desired baud rate I2C  
@@ -363,15 +391,74 @@ delay_1:    AIX #-1 ; 2 cycles
 			PULH ; restore context H
 			RTS ; 5 cycles	
 			  	
+;**********************************************Interrupt Service routine RTC
+Vrtc_ISR:
+		   BSET RTCSC_RTIF,RTCSC ;  BLINK LED
+		   BSET LED,PTCD
+		   
+		   LDA segundos
+		   INC segundos
+		   LDA #60D
+		   CBEQ segundos,inc_minutes
+		   BRA show_time			  	
+inc_minutes:
+		   CLR segundos
+		   INC minutos
+		   LDA #60D
+		   CBEQ minutos,inc_hour
+		   BRA show_time
+inc_hour:
+		   CLR minutos
+		   INC horas		   
+		   LDA #13D
+		   CBEQ minutos,inc_dias
+		   BRA show_time		
+inc_dias:
+		   CLR horas 
+		   INC dias
+
+show_time:    LDA #cmd_line2
+			  ADD #2
+		      JSR send_command
+			  LDA horas
+			  JSR separate_time
+			  LDA #':'
+			  JSR send_data
+			  LDA minutos
+			  JSR separate_time
+			  LDA #':'
+			  JSR send_data
+			  LDA segundos
+			  JSR separate_time
+			  ;MOV #30D,var_delay
+		      ;JSR delayAx5ms
+		      BCLR LED,PTCD
+			  RTI
+			  
+separate_time:			  
+			  LDHX #0000H
+			  LDX #10D
+			  DIV
+			  ORA #30H
+			  JSR send_data
+			  PSHH
+			  PULA
+			  ORA #30H
+			  JSR send_data 		   		      
+		   	  RTS
+		   	  		   
 ;************************************************************************************VECTORS OF INTERRUPT
 config_LCD:	DC.B cmd_8bitmode,cmd_displayON,cmd_clear,cmd_line2,0  ; 90 second line
-initial_message: DC.B '  NO TE RINDAS ',2,0
+initial_message: DC.B 'CLOCK',0
+alarm: DC.B 'ALARM: ',0
 i2c_config: DC.B 0D0H,6BH,0H
 
             ORG Vreset				; Reset
 			DC.W  _Startup	
 			;ORG Viic
 			;DC.W Viic_ISR
+			ORG Vrtc
+			DC.W Vrtc_ISR
 
 
 
