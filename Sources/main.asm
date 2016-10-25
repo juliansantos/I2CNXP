@@ -9,7 +9,7 @@ rGY521 EQU 0D1H ; to read
     ; Name Pull-down AD0 
 dirPower EQU 06BH ; Register for manage the power of sensor '=0 to turn on'
 acelx EQU 3BH ;
-    
+flag_down EQU 0
   ;*******************************Pin definition section
 pin_ENABLE EQU 5 ; pin ENABLE
 pin_RS EQU 4 ; pin RS
@@ -36,6 +36,8 @@ var_delay: DS.B   1
 VAL:	   DS.B 1
 var_x_accel:  DS.B 2
 ascci_accel   DS.B 5
+repeticiones DS.B 1
+flags DS.B 1
 
            ORG    0C000H
             
@@ -51,12 +53,13 @@ mainLoop:
 				JSR init_LCD
 				LDHX #initial_message 
 				JSR write_message ; Display the initial message
-lectura:				
-				JSR init_I2C ; Subroutine for initilaze I2C module 
-         		JSR read_acel_x  
-				JSR show_acel_x  			
+				
+lectura:     	JSR init_I2C ; Subroutine for initilaze I2C module 
+        		JSR read_acel_x  
+				;JSR show_acel_x  
+				JSR show_rept			
     			BSET LED,PTCD
-				JMP *
+		;		JMP *
 	            BRA  lectura
 ;**********************************************************Subroutine for initial configuration
 initial_config:
@@ -78,6 +81,9 @@ initial_states:
 				STA ascci_accel+2
 				STA ascci_accel+1
 				STA ascci_accel+0
+				STA flags
+				LDA #30D
+				STA repeticiones
 				RTS
 				
 ;**********************************************************Subroutine for initialize LCD	
@@ -183,7 +189,40 @@ init_I2C:
 	
 			  
 			  RTS ; Return from subroutine
-			  
+;*********************************************************Subroutine for show repetitions			  
+show_rept:
+			  LDA var_x_accel
+			  NSA
+			  AND #0FH
+			  CBEQA #0FH,down
+			  CBEQA #03H,up
+			  BRA fin_rep
+down:		
+			  BSET flag_down,flags
+			  BRA fin_rep	  
+up:			  BRCLR flag_down,flags,fin_rep
+			  BCLR flag_down,flags
+			  LDA repeticiones
+			  DECA
+			  STA repeticiones
+			  CBEQA #0H,*
+			  MOV #100D,var_delay
+			  JSR delayAx5ms
+			  	  
+fin_rep:      LDA #cmd_line3
+			  ADD #3
+		      JSR send_command
+			  LDA repeticiones
+			  LDHX #0000H
+			  LDX #10D
+			  DIV
+			  ORA #30H
+			  JSR send_data
+			  PSHH
+			  PULA
+			  ORA #30H
+			  JSR send_data
+			  RTS			  
 ;*********************************************************Subroutine for send data to IIC bus  
 ;send_I2C:
 ;				STA IICD
@@ -198,7 +237,8 @@ read_acel_x:
     			RTS
 ;********************************************************SUBROUTINE TO SHOW THE DATA   			
 show_acel_x:	
-				LDA #cmd_line1
+				LDA #cmd_line3
+				ADD #3
 				JSR send_command	
 				JSR conversion
 				JSR conversion1
@@ -325,7 +365,7 @@ delay_1:    AIX #-1 ; 2 cycles
 			  	
 ;************************************************************************************VECTORS OF INTERRUPT
 config_LCD:	DC.B cmd_8bitmode,cmd_displayON,cmd_clear,cmd_line2,0  ; 90 second line
-initial_message: DC.B '  SETTING UP ',2,0
+initial_message: DC.B '  NO TE RINDAS ',2,0
 i2c_config: DC.B 0D0H,6BH,0H
 
             ORG Vreset				; Reset
