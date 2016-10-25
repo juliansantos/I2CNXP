@@ -21,16 +21,16 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="obj" artifactName="I2C-Accelelometer" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="&quot;${system:ECLIPSE_HOME}/../gnu/bin/rm&quot; -f" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;com.freescale.core.ide.cdt.errorParsers.GCCErrorParser;com.freescale.core.ide.cdt.errorParsers.MwfeErrorParser;com.freescale.core.ide.cdt.errorParsers.LnkErrorParser;com.freescale.core.ide.cdt.errorParsers.AsmErrorParser;com.freescale.core.ide.cdt.errorParsers.CobjErrorParser;com.freescale.core.ide.cdt.errorParsers.IcodeErrorParser;com.freescale.core.ide.cdt.errorParsers.LltErrorParser;com.freescale.core.ide.cdt.errorParsers.S08ErrorParser;" id="toolchain.config.hcs08.absoluteAssembly.release.1913479711" isPrebuildInvalidatingBuild="false" name="FLASH" parent="toolchain.config.hcs08.absoluteAssembly.release">
+				<configuration artifactExtension="obj" artifactName="I2C-Accelelometer" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" buildReferences="true" buildReferencingConfigurations="false" cleanCommand="&quot;${system:ECLIPSE_HOME}/../gnu/bin/rm&quot; -f" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;com.freescale.core.ide.cdt.errorParsers.GCCErrorParser;com.freescale.core.ide.cdt.errorParsers.MwfeErrorParser;com.freescale.core.ide.cdt.errorParsers.LnkErrorParser;com.freescale.core.ide.cdt.errorParsers.AsmErrorParser;com.freescale.core.ide.cdt.errorParsers.CobjErrorParser;com.freescale.core.ide.cdt.errorParsers.IcodeErrorParser;com.freescale.core.ide.cdt.errorParsers.LltErrorParser;com.freescale.core.ide.cdt.errorParsers.S08ErrorParser;" id="toolchain.config.hcs08.absoluteAssembly.release.1913479711" isPrebuildInvalidatingBuild="false" name="FLASH" parent="toolchain.config.hcs08.absoluteAssembly.release" produceBuildErrorsWithMissingReferences="true">
 					<folderInfo id="toolchain.config.hcs08.absoluteAssembly.release.1913479711." name="/" resourcePath="">
 						<toolChain errorParsers="" id="hcs08.absoluteAssembly.toolchain.558404584" name="HCS08 Absolute Assembly Toolchain" superClass="hcs08.absoluteAssembly.toolchain">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="hc08.toolchain.platform.472154540" name="HC08 Targetplatform" superClass="hc08.toolchain.platform"/>
-							<builder buildPath="${ProjDirPath}/FLASH" errorParsers="com.freescale.core.ide.cdt.errorParsers.GCCErrorParser;org.eclipse.cdt.core.GmakeErrorParser;com.freescale.core.ide.cdt.errorParsers.LltErrorParser;com.freescale.core.ide.cdt.errorParsers.AsmErrorParser;com.freescale.core.ide.cdt.errorParsers.IcodeErrorParser;com.freescale.core.ide.cdt.errorParsers.CobjErrorParser;com.freescale.core.ide.cdt.errorParsers.S08ErrorParser;com.freescale.core.ide.cdt.errorParsers.LnkErrorParser;com.freescale.core.ide.cdt.errorParsers.MwfeErrorParser" id="hc08.toolchain.builder.1365273581" name="GNU Make Builder.FLASH" superClass="hc08.toolchain.builder"/>
+							<builder autoBuildTarget="" buildPath="${ProjDirPath}/FLASH" cleanBuildTarget="" enableAutoBuild="true" enableCleanBuild="true" enabledIncrementalBuild="true" errorParsers="com.freescale.core.ide.cdt.errorParsers.GCCErrorParser;org.eclipse.cdt.core.GmakeErrorParser;com.freescale.core.ide.cdt.errorParsers.LltErrorParser;com.freescale.core.ide.cdt.errorParsers.AsmErrorParser;com.freescale.core.ide.cdt.errorParsers.IcodeErrorParser;com.freescale.core.ide.cdt.errorParsers.CobjErrorParser;com.freescale.core.ide.cdt.errorParsers.S08ErrorParser;com.freescale.core.ide.cdt.errorParsers.LnkErrorParser;com.freescale.core.ide.cdt.errorParsers.MwfeErrorParser" id="hc08.toolchain.builder.1365273581" incrementalBuildTarget="" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GNU Make Builder" parallelBuildOn="false" parallelBuildWorkspaceOn="true" parallelizationNumber="1" superClass="hc08.toolchain.builder"/>
 							<tool errorParsers="" id="s08.toolchain.decoder.1560305752" name="S08 Disassembler" superClass="s08.toolchain.decoder"/>
 							<tool errorParsers="" id="hc08.toolchain.assembler.asbolute.920559056" name="HCS08 Assembler" superClass="hc08.toolchain.assembler.asbolute">
-								<option id="hc08.toolchain.asm.base.output.objectFileFormat.531867167" superClass="hc08.toolchain.asm.base.output.objectFileFormat" value="hc08.toolchain.asm.base.output.objectFileFormat.ELF_DWARF_2" valueType="enumerated"/>
-								<option id="hc08.toolchain.asm.base.codegen.asmdbg.1671677115" superClass="hc08.toolchain.asm.base.codegen.asmdbg" value="true" valueType="boolean"/>
-								<option id="hc08.toolchain.assembler.base.include.dirs.1059050250" superClass="hc08.toolchain.assembler.base.include.dirs" valueType="includePath">
+								<option id="hc08.toolchain.asm.base.output.objectFileFormat.531867167" name="Object File Format (-F)" superClass="hc08.toolchain.asm.base.output.objectFileFormat" value="hc08.toolchain.asm.base.output.objectFileFormat.ELF_DWARF_2" valueType="enumerated"/>
+								<option id="hc08.toolchain.asm.base.codegen.asmdbg.1671677115" name="Associate debug information to assembly source file (-AsmDbg)" superClass="hc08.toolchain.asm.base.codegen.asmdbg" value="true" valueType="boolean"/>
+								<option id="hc08.toolchain.assembler.base.include.dirs.1059050250" name="Include file search paths (-I)" superClass="hc08.toolchain.assembler.base.include.dirs" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Project_Headers&quot;"/>
 								</option>
 								<inputType id="hc08.toolchain.assembler.base.input.981805954" name="HC08 Assembler Input" superClass="hc08.toolchain.assembler.base.input"/>
@@ -50,4 +50,10 @@
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="FLASH">
+			<resource resourceType="PROJECT" workspacePath="/I2C-Accelelometer"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
